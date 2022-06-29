@@ -147,7 +147,7 @@ class UpdatePatientForm(PatientForm):
     def bind_delete(self, callback):
         self.btn_delete.config(command=callback)
     def bind_imc(self, callback,ctrl):
-	    self.btn_imc.config(command=ctrl.verIMC)
+	    self.btn_imc.config(command=callback)
 
 class PatientView(tk.Tk):
     def __init__(self):
@@ -165,6 +165,7 @@ class PatientView(tk.Tk):
         self.list.bind_doble_click(ctrl.seleccionarPaciente)
         self.form.bind_save(ctrl.modificarPaciente)
         self.form.bind_delete(ctrl.borrarPaciente)
+        self.form.bind_imc(ctrl.VerIMC,ctrl)
     def agregarPaciente(self, paciente):
         self.list.insertar(paciente)
     def modificarPaciente(self, paciente, index):

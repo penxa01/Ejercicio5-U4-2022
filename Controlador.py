@@ -1,4 +1,4 @@
-from Vista import NewPatient,PatientView
+from Vista import NewPatient,PatientView,VerIMC
 from ManejadorPacientes import ManejadorPacientes
 
 class ControladorPacientes(object):
@@ -42,3 +42,10 @@ class ControladorPacientes(object):
         self.vista.mainloop()
     def salirGrabarDatos(self):
         self.repo.grabarDatos()
+    def VerIMC(self):
+        if self.seleccion == -1:
+            return 
+        else:
+            detallesPaciente = self.vista.obtenerDetalles()
+            imc = VerIMC(self.vista,int(detallesPaciente.getAltura()),int(detallesPaciente.getPeso()))
+            self.seleccion = -1
