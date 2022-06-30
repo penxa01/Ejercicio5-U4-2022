@@ -1,6 +1,6 @@
 from Vista import NewPatient,PatientView,VerIMC
 from ManejadorPacientes import ManejadorPacientes
-
+#Funciona de 'intermediario' entre la vista y el modelo(repositorio)
 class ControladorPacientes(object):
     def __init__(self, repo, vista):
         self.repo = repo

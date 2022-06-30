@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 from ClasePaciente import Paciente
-
+#Listado de pacientes a la izquierda de la ventana
 class PatientList(tk.Frame):
     def __init__(self, master, **kwargs):
         super().__init__(master)
@@ -22,11 +22,13 @@ class PatientList(tk.Frame):
         handler = lambda _: callback(self.lb.curselection()[0])
         self.lb.bind("<Double-Button-1>", handler)
 
+#Entradas con informacion del paciente
 class PatientForm(tk.LabelFrame):
     fields = ("Apellido", "Nombre", "Teléfono",'Altura','Peso')
     def __init__(self, master, **kwargs):
         super().__init__(master, text="Paciente", padx=10, pady=10, **kwargs)
         self.frame = tk.Frame(self)
+        #Crea las entradas del formulario
         self.entries = list(map(self.crearCampo, enumerate(self.fields)))
         self.frame.pack()
     def crearCampo(self, field):
@@ -56,7 +58,7 @@ class PatientForm(tk.LabelFrame):
     def limpiar(self):
         for entry in self.entries:
             entry.delete(0, tk.END)
-
+#Funcion para crea la ventana modal
 class NewPatient(tk.Toplevel):
     def __init__(self, parent):
         super().__init__(parent)
@@ -65,15 +67,18 @@ class NewPatient(tk.Toplevel):
         self.btn_add = tk.Button(self, text="Confirmar", command=self.confirmar)
         self.form.pack(padx=10, pady=10)
         self.btn_add.pack(pady=10)
+    
     def confirmar(self):
         self.paciente = self.form.crearPacienteDesdeFormulario()
         if self.paciente:
             self.destroy()
+    
     def show(self):
+        #Evita que podas tocar las ventanas por detras de la ventana modal
         self.grab_set()
         self.wait_window()
         return self.paciente
-
+#Ventana modal que muestra el imc del paciente seleccionado
 class VerIMC(tk.Toplevel):
 	def __init__(self, parent,altura,peso):
 		super().__init__(parent)
@@ -126,11 +131,7 @@ class VerIMC(tk.Toplevel):
 		self.wait_window()
 		return self.paciente
 
-	def show(self):
-		self.grab_set()
-		self.wait_window()
-		return self.paciente
-
+#Botones del frame del formulario
 class UpdatePatientForm(PatientForm):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
@@ -142,6 +143,7 @@ class UpdatePatientForm(PatientForm):
         self.btn_save.pack(side=tk.RIGHT, ipadx=5, padx=5, pady=5)
         self.btn_delete.pack(side=tk.RIGHT, ipadx=5, padx=5, pady=5)
 
+    #Asigna la funcion del boton, pero no esta definido
     def bind_save(self, callback):
         self.btn_save.config(command=callback)
     def bind_delete(self, callback):
@@ -162,6 +164,7 @@ class PatientView(tk.Tk):
     def setControlador(self, ctrl):
         #vincula la vista con el controlador
         self.btn_new.config(command=ctrl.crearPaciente)
+        #Seteado el controlador, se le indica que indica que funcion cumple los botones de UpdatePatientForm
         self.list.bind_doble_click(ctrl.seleccionarPaciente)
         self.form.bind_save(ctrl.modificarPaciente)
         self.form.bind_delete(ctrl.borrarPaciente)

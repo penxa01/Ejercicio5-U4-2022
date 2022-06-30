@@ -7,7 +7,9 @@ import os
 class ObjectEncoder(object):
     __pathArchivo=None
     def __init__(self, pathArchivo):
+        #PathArchivo == nombre del archivo
         self.__pathArchivo=pathArchivo
+    #Decodifica,lee y graba informacion de/hacia Json
     def decodificarDiccionario(self, d):
         if '__class__' not in d:
             return d
